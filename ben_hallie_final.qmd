@@ -6,22 +6,23 @@ import pandas as pd
 ```{python}
 #load in all the data
 path = r"/Users/hallielovin/Documents/GitHub/DAP2_Final_Project/Data"
+ben_path = r"/Users/benschiffman/Desktop/Python 2/DAP2_Final_Project"
 
 le = r"Life_Expectancy.csv"
 
-le_df = pd.read_csv(os.path.join(path, le))
+le_df = pd.read_csv(os.path.join(ben_path, le))
 
 income = r"Median_Income.csv"
 
-income_df = pd.read_csv(os.path.join(path, income))
+income_df = pd.read_csv(os.path.join(ben_path, income))
 
 safe_play = r"Safe_Play_Places.csv"
 
-safe_play_df = pd.read_csv(os.path.join(path, safe_play))
+safe_play_df = pd.read_csv(os.path.join(ben_path, safe_play))
 
 crime = r"Serious_Violent_Crimes.csv"
 
-crime_df = pd.read_csv(os.path.join(path, crime))
+crime_df = pd.read_csv(os.path.join(ben_path, crime))
 ```
 
 ```{python}
@@ -43,4 +44,6 @@ df = pd.merge(crime_df, income_df, on = common_col, how = "outer")
 df = pd.merge(le_df, df, on = common_col, how = "outer")
 
 df = pd.merge(safe_play_df, df, on = common_col, how = "outer")
+
+print(df.head())
 ```
