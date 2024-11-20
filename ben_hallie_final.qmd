@@ -1,0 +1,46 @@
+```{python}
+#load in necessary packages
+import pandas as pd
+```
+
+```{python}
+#load in all the data
+path = r"/Users/hallielovin/Documents/GitHub/DAP2_Final_Project/Data"
+
+le = r"Life_Expectancy.csv"
+
+le_df = pd.read_csv(os.path.join(path, le))
+
+income = r"Median_Income.csv"
+
+income_df = pd.read_csv(os.path.join(path, income))
+
+safe_play = r"Safe_Play_Places.csv"
+
+safe_play_df = pd.read_csv(os.path.join(path, safe_play))
+
+crime = r"Serious_Violent_Crimes.csv"
+
+crime_df = pd.read_csv(os.path.join(path, crime))
+```
+
+```{python}
+common_col = ["OBJECTID", "Geography ID", "Geography Type", "Name"]
+
+le_df.columns = [col if col in common_col else "le_" + col for col in le_df.columns]
+
+income_df.columns = [col if col in common_col else "income_" + col for col in income_df.columns]
+
+safe_play_df.columns = [col if col in common_col else "safe_play_" + col for col in safe_play_df.columns]
+
+crime_df.columns = [col if col in common_col else "crime_" + col for col in crime_df.columns]
+```
+
+```{python}
+#merge the df all together
+df = pd.merge(crime_df, income_df, on = common_col, how = "outer")
+
+df = pd.merge(le_df, df, on = common_col, how = "outer")
+
+df = pd.merge(safe_play_df, df, on = common_col, how = "outer")
+```
