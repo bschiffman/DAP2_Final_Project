@@ -45,5 +45,12 @@ df = pd.merge(le_df, df, on = common_col, how = "outer")
 
 df = pd.merge(safe_play_df, df, on = common_col, how = "outer")
 
-print(df.head())
+df.head()
+```
+
+```{python}
+#doing some renaming to make columns more easily accessible 
+df.rename(columns={"safe_play_Percentage of Children (Ages 1 to 17 Years) With Easy Access to a Park, Playground, or Other Safe Place to Play": "perc_safe_play_places", "le_Life Expectancy at Birth ": "le_at_birth", "income_Median Household Income": "median_income","crime_Serious Violent Crimes (per 100,000 Population), 2022": "crime"}, inplace=True)
+
+df.head()
 ```
