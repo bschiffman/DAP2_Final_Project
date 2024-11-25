@@ -54,3 +54,48 @@ df.rename(columns={"safe_play_Percentage of Children (Ages 1 to 17 Years) With E
 
 df.head()
 ```
+
+```{python}
+#some data exploration 
+#maybe see if groups by above or below mean of safe play places make distinct groups in violent crime & life expectancy with income
+safe_play_mean_df = df.copy()
+safe_play_mean_df = safe_play_mean_df[["Name", "perc_safe_play_places",'le_at_birth', 'crime', 'median_income']]
+
+safe_play_mean_df = safe_play_mean_df.dropna(subset=["perc_safe_play_places"])
+
+safe_mean = safe_play_mean_df["perc_safe_play_places"].mean()
+
+safe_play_mean_df["play_above_mean"] = safe_play_mean_df["perc_safe_play_places"].apply(lambda x: 1 if x > safe_mean else 0)
+
+
+#renaming for ease of labeling (help from chatGPT)
+safe_play_mean_df["play_above_mean"] = safe_play_mean_df["play_above_mean"].map({0: "Below Mean", 1: "Above Mean"})
+```
+
+```{python}
+import altair as alt
+```
+
+```{python}
+#first plot exploring the above data
+
+scatter = alt.Chart(safe_play_mean_df).mark_circle().encode(
+    alt.X("median_income:Q", 
+        scale = alt.Scale(domain=[safe_play_mean_df["median_income"].min(), safe_play_mean_df["median_income"].max()]),
+        title = "Median Income"),
+    alt.Y("le_at_birth:Q", 
+        scale = alt.Scale(domain=[safe_play_mean_df["le_at_birth"].min()-2, safe_play_mean_df["le_at_birth"].max()+2]),
+        title = "Life Expectancy"),
+    color = alt.Color("play_above_mean:N", 
+        title = "Safe Play Places")
+).properties(
+    title = "Exploring Life Expectancy and Median Income by Safe Play Place Categories"
+) #title rewritten with chatGPT
+
+safe_play_plot = scatter + scatter.transform_regression("median_income", "le_at_birth", groupby = ["play_above_mean"]).mark_line()
+
+safe_play_plot.show()
+
+safe_play_plot.save("safe_play_plot.png")
+```
+
