@@ -1,6 +1,7 @@
 ```{python}
 #load in necessary packages
 import pandas as pd
+import altair as alt
 ```
 
 ```{python}
@@ -69,16 +70,11 @@ safe_play_mean_df["play_above_mean"] = safe_play_mean_df["perc_safe_play_places"
 
 
 #renaming for ease of labeling (help from chatGPT)
-safe_play_mean_df["play_above_mean"] = safe_play_mean_df["play_above_mean"].map({0: "Below Mean", 1: "Above Mean"})
-```
-
-```{python}
-import altair as alt
+safe_play_mean_df["play_above_mean"] = safe_play_mean_df["play_above_mean"].map({0: "Below Avg", 1: "Above Avg"})
 ```
 
 ```{python}
 #first plot exploring the above data
-
 scatter = alt.Chart(safe_play_mean_df).mark_circle().encode(
     alt.X("median_income:Q", 
         scale = alt.Scale(domain=[safe_play_mean_df["median_income"].min(), safe_play_mean_df["median_income"].max()]),
@@ -89,7 +85,7 @@ scatter = alt.Chart(safe_play_mean_df).mark_circle().encode(
     color = alt.Color("play_above_mean:N", 
         title = "Safe Play Places")
 ).properties(
-    title = "Exploring Life Expectancy and Median Income by Safe Play Place Categories"
+    title = "Exploring Life Expectancy and Median Income by Safe Play Place Access"
 ) #title rewritten with chatGPT
 
 safe_play_plot = scatter + scatter.transform_regression("median_income", "le_at_birth", groupby = ["play_above_mean"]).mark_line()
@@ -97,5 +93,64 @@ safe_play_plot = scatter + scatter.transform_regression("median_income", "le_at_
 safe_play_plot.show()
 
 safe_play_plot.save("safe_play_plot.png")
+```
+
+From some observation of the graph output above, I see a compelling story here. When controlling for safe play places being above or below the mean, there seems to be a substantial differnce in the spread of life expectancy and median incomes. Below average play places seem to have a much lower income ceiling, and certainly lower life expectancies. The higher slope for below average play places also indicates the effects are higher for increases on the lower end of the spectrum. There will be many confounders here, so a much more rigorous statistical analysis will be needed to determine any causality especially given the likely confounders at play. 
+
+```{python}
+#second plot experiment
+#I'm thinking to do something with crime data and area?
+
+crime_plot_df = df.copy()
+crime_plot_df = crime_plot_df.rename(columns = {'crime_Serious Violent Crimes (per 100,000 Population), 2018-2022':"crime_2018_2022"})
+
+crime_plot_df = crime_plot_df[['Geography ID', 'Geography Type',"crime_2018_2022", 'perc_safe_play_places', 'median_income', 'crime_Shape__Area']]
+```
+
+```{python}
+#exploring some options for making the data useful
+
+#area data super right skewed, lets try to remove those
+"""
+crime_plot_df['crime_Shape__Area'].describe()
+crime_plot_df['crime_Shape__Area'] = crime_plot_df['crime_Shape__Area'] <  3.103419e+08
+"""
+#actually its just not great on its own. Lets do big and small
+mean_area = crime_plot_df['crime_Shape__Area'].median()
+crime_plot_df['big_small'] = crime_plot_df['crime_Shape__Area'].apply(lambda x: "big" if x > mean_area else "small")
+
+crime_plot_df['Geography Type'] = crime_plot_df['Geography Type'].apply(lambda x: "Unincorperated" if x == "Unincorporated Los Angeles County" else x)
+```
+
+```{python}
+#boxplot
+big_small_box = alt.Chart(crime_plot_df).mark_boxplot().encode(
+    alt.X("big_small:N",  title = "Big or Small Municipality"),
+    alt.Y("crime_2018_2022:Q", title = "Crime Rate per 10,000 2018-2022"),
+    color = alt.Color("big_small:N")
+).properties(
+    title = "Crime Rate by Relative Municipality Size"
+)
+
+#histogram of geo type by size
+
+geotype_hist = alt.Chart(crime_plot_df).mark_bar().encode(
+    alt.X("big_small:N", title = "Big or Small Municipality"),
+    alt.Y("count()", title = "Count"),
+    color = "Geography Type"
+).properties(
+    title = "Share of Incorporated Municipalities by Size"
+)
+
+muni_size_plot = (big_small_box | geotype_hist).properties(
+    title = alt.TitleParams(
+        text = "Municipality Size and Incorporation Analysis",
+        anchor = "middle",
+        fontSize = 22
+    )
+)
+muni_size_plot.show()
+
+muni_size_plot.save("muni_size_plot.png")
 ```
 
