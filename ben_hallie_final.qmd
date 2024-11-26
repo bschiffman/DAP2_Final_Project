@@ -47,7 +47,7 @@ df = pd.merge(safe_play_df, df, on = common_col, how = "outer")
 
 ```{python}
 #doing some renaming to make columns more easily accessible 
-df.rename(columns={"safe_play_Percentage of Children (Ages 1 to 17 Years) With Easy Access to a Park, Playground, or Other Safe Place to Play": "perc_safe_play_places", "le_Life Expectancy at Birth ": "le_at_birth", "income_Median Household Income": "median_income","crime_Serious Violent Crimes (per 100,000 Population), 2022": "crime"}, inplace=True)
+df.rename(columns={"safe_play_Percentage of Children (Ages 1 to 17 Years) With Easy Access to a Park, Playground, or Other Safe Place to Play": "perc_safe_play_places", "le_Life Expectancy at Birth ": "le_at_birth", "income_Median Household Income": "median_income","crime_Serious Violent Crimes (per 100,000 Population), 2018-2022": "crime"}, inplace=True)
 ```
 
 ```{python}
@@ -71,6 +71,37 @@ crime_mean = df["crime"].mean()
 ```
 
 ```{python}
+#find the deviation from the mean for each variable
+df["safe_play_deviation"] = df["perc_safe_play_places"] - safe_mean
+
+df["le_deviation"] = df["le_at_birth"] - le_mean
+
+df["income_deviation"] = df["median_income"] - income_mean
+
+df["crime_deviation"] = df["crime"] - crime_mean
+```
+
+```{python}
+#save the edited df so we can use it in the app
+df.to_csv(f"{path}/final_df.csv", index=False)
+```
+
+```{python}
 #import altair 
 import altair as alt
+```
+
+```{python}
+#do a trial code that we can then use in the app
+chart = alt.Chart(df).mark_bar().encode(
+    x="Name:N",                  
+    y="crime_deviation:Q",
+    color="median_income:Q"         
+).properties(
+    title="Crime Deviation to Mean"
+)
+
+chart.show()
+
+##add in color coding by median income
 ```
