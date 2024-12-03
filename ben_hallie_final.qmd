@@ -96,12 +96,10 @@ import altair as alt
 chart = alt.Chart(df).mark_bar().encode(
     x="Name:N",                  
     y="crime_deviation:Q",
-    color="median_income:Q"         
+    color=alt.Color("median_income:Q", scale=alt.Scale(scheme="inferno"))        
 ).properties(
     title="Crime Deviation to Mean"
 )
 
 chart.show()
-
-##add in color coding by median income
 ```
