@@ -7,12 +7,17 @@ app_ui = ui.page_fluid(
     ui.input_select(id = "Variable", label = "Choose a variable:", choices = ["crime_deviation", "income_deviation", "le_deviation", "safe_play_deviation"]),
     output_widget("chart")
 )
-
+"""
 def server(input, output, session):
     @reactive.calc
     def data():
         return pd.read_csv("/Users/hallielovin/Documents/GitHub/DAP2_Final_Project/Data/final_df.csv")
+"""
 
+def server(input, output, session):
+    @reactive.calc
+    def data():
+        return pd.read_csv("/Users/benschiffman/Desktop/Python 2/DAP2_Final_Project/final_df.csv")
 
     @reactive.calc
     def variable_group():

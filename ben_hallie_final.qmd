@@ -99,7 +99,7 @@ From some observation of the graph output above, I see a compelling story here. 
 #I'm thinking to do something with crime data and area?
 
 crime_plot_df = df.copy()
-crime_plot_df = crime_plot_df.rename(columns = {'crime_Serious Violent Crimes (per 100,000 Population), 2018-2022':"crime_2018_2022"})
+crime_plot_df = crime_plot_df.rename(columns = {'crime':"crime_2018_2022"})
 
 crime_plot_df = crime_plot_df[['Geography ID', 'Geography Type',"crime_2018_2022", 'perc_safe_play_places', 'median_income', 'crime_Shape__Area']]
 ```
@@ -190,10 +190,6 @@ df["crime_deviation"] = df["crime"] - crime_mean
 df.to_csv(f"{path}/final_df.csv", index=False)
 ```
 
-```{python}
-#import altair 
-import altair as alt
-```
 
 ```{python}
 #do a trial code that we can then use in the app
