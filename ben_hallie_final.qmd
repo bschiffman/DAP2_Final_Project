@@ -1,7 +1,27 @@
+---
+title: DAP 2 Final Project
+author: "Ben Schiffman and Hallie Lovin"
+date: today
+format: 
+  pdf:
+    include-in-header: 
+       text: |
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+include-before-body:
+  text: |
+    \RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+      showspaces = false,
+      showtabs = false,
+      breaksymbolleft={},
+      breaklines
+    }
+---
 ```{python}
 #load in necessary packages
 import pandas as pd
 import altair as alt
+import os
 ```
 
 ```{python}
@@ -187,7 +207,7 @@ df["crime_deviation"] = df["crime"] - crime_mean
 
 ```{python}
 #save the edited df so we can use it in the app
-df.to_csv(f"{path}/final_df.csv", index=False)
+df.to_csv(f"{ben_path}/final_df.csv", index=False)
 ```
 
 

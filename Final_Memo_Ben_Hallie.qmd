@@ -1,0 +1,35 @@
+---
+title: DAP 2 Final Project
+author: "Ben Schiffman and Hallie Lovin"
+date: today
+format: 
+  pdf:
+    include-in-header: 
+       text: |
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+include-before-body:
+  text: |
+    \RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+      showspaces = false,
+      showtabs = false,
+      breaksymbolleft={},
+      breaklines
+    }
+---
+
+#Research Question (Hallie)
+
+#Approach
+
+#Coding 
+
+#Plots 
+
+##Plot 1
+
+##Plot 2
+
+##Plot 3 (From UI)
+
+#Policy Implications and Future Research (Hallie)
