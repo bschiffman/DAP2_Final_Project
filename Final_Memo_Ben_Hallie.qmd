@@ -22,7 +22,8 @@ include-before-body:
     }
 ---
 
-# Research Question (Hallie)
+# Research Question 
+Our project aimed to explore the relationship that existed between median income, life expectancy, safe play places, and serious violent crime rates in LA County.
 
 # Approach
 ## Data
@@ -31,6 +32,7 @@ Our datasets come from the [LA County Open Data Website](https://data.lacounty.g
 Safe play places are defined as "Percentage of Children (Ages 1 to 17 Years) With Easy Access to a Park, Playground, or Other Safe Place to Play." We viewed this as a unique quality of life indicator as its temporal connection to the other QOL measures we explored may go in both directions. 
 
 The links to the data dictionaries for each of the 3 data sources used can be found in the [README.txt](DAP2_Final_Project/README.txt) file. 
+
 ## Analysis
 Our plan for this analysis was to create visualization tho demonstrate patterns in the data that may be of intrique for further rigorous examination. In this regard, we feel we have succeeded in creating charts, including a Shiny application, that display novel and interesting patterns worth further exploration.
 
@@ -49,7 +51,13 @@ This plot shows the relationship between Median Income and Life Expectancy with 
 
 This image demonstrates the potential relationship between municipality size and incorporation status with crime. We see that smaller municipalities have a higher average crime rate and variance, while large does have several extreme high outliers which are likely dense and poor cities. Smaller municipalities are more likely to be unincorporated.
 
-## Plot 3 (From UI)
-Hallie what do you think of just one screenshot and a link to open the app or something? No that much space.
+## Plot 3
+![App UI](Pictures/UI.png){width=50%}
 
-# Policy Implications and Future Research (Hallie)
+For the final piece of our project we developed an app to let users analyze how far municipalities deviate from the mean in a respective variable. As the user navigates the app and analyzes the data, they will find that municipalities that have the lowest median incomes stray the furthest away from the mean in the worst ways (i.e. the city of Compton, has the lowest life expectancy, the highest rate of crime, the lowest number of safe play places, and, the lowest median income.)
+
+# Policy Implications and Future Research 
+1. A need for further research: This project exposed key questions such as why do smaller municipalities have more crime? Why do places with more safe play locations have higher life expectancies? If there is more effort into exploring these areas, we can work on making cities safer. 
+2. Increasing opportunity: Before research is completed policymakers should focus on generating short term, but impactful, solutions such as increasing economic opportunity.
+3. Providing wraparound services: There needs to be a focus on supporting people in ways that can help not harm such as increasing access to mental healthcare, providing safe and secure housing, and not only relying on police to cause social ailments. 
+4. Investing in Compton: As the stand out municipality in the most negative of ways, resources should be funneled to Compton to support their community. 
